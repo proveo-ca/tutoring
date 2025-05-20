@@ -1,0 +1,20 @@
+dist/
+build/
+.idea
+reading/
+.env
+
+#log
+logs
+*.log
+.pnpm-debug.log*
+#node
+node_modules
+#ai
+.aider/
+.aider*
+# python
+.venv/
+__pycache__
+.cache/
+.pytest_cache

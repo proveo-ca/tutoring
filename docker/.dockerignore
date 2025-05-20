@@ -1,0 +1,9 @@
+# python artifacts
+__pycache__/
+*.py[cod]
+.venv/
+
+# local dev only
+.env
+vector_store/
+node_modules/

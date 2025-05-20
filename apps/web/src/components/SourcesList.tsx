@@ -3,7 +3,8 @@ import { Heading } from 'react-aria-components'
 import { useSources, useDownloadSource } from '../hooks/useSourcesApi'
 import styles from './SourcesList.module.css'
 import { SourceFile } from "../types.ts";
-import { Loading } from "./Loading.tsx";
+import { Loading } from "./common/Loading.tsx";
+import Spoiler from "./common/Spoiler.tsx";
 
 const SourcesList: React.FC = () => {
   const { data, isLoading, isError, error } = useSources()
@@ -33,8 +34,7 @@ const SourcesList: React.FC = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <Heading level={2}>Sources</Heading>
+    <Spoiler title={"Sources"}>
       <ul className={styles.list}>
         {sources.map((source: SourceFile) => (
           <li
@@ -43,13 +43,13 @@ const SourcesList: React.FC = () => {
             onClick={() => handleDownload(source)}
             style={{ cursor: 'pointer' }}
           >
-            <div className={styles.title}>{source.filename}</div>
-            <div className={styles.content}>{source.lastModified}</div>
+            <span className={styles.title}>{source.filename}</span>
+            <span className={styles.content}>Last Modified: {source.lastModified}</span>
             {isDownloading && downloadingFile === source.filename && <Loading />}
           </li>
         ))}
       </ul>
-    </div>
+    </Spoiler>
   )
 }
 

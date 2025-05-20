@@ -1,0 +1,47 @@
+.spoiler {
+  width: 100%;
+  margin-bottom: var(--spacing-md, 1rem);
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: var(--border-radius, 4px);
+  overflow: hidden;
+}
+
+.spoilerButton {
+  display: none;
+}
+
+.spoilerHead {
+  display: block;
+  padding: var(--spacing-sm, 0.75rem) var(--spacing-md, 1rem);
+  background-color: var(--background-light, #f5f5f5);
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+}
+
+.spoilerHead::after {
+  content: '+';
+  position: absolute;
+  right: var(--spacing-md, 1rem);
+  transition: transform 0.3s ease;
+}
+
+.spoilerButton:checked + .spoilerHead::after {
+  content: '−';
+}
+
+.spoilerBody {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 var(--spacing-md, 1rem);
+}
+
+.spoilerButton:checked ~ .spoilerBody {
+  max-height: unset;
+  padding: var(--spacing-md, 1rem);
+}
+
+.spoiler > .spoiler-button:focus { /* Spoiler's focus outline */
+  outline: 4px solid #bcbf;
+}
