@@ -8,23 +8,7 @@ const SourcesList: React.FC = () => {
   const { data, isLoading, isError, error } = useSources()
   const sources = data?.files
 
-  const handleDownload = (source: SourceFile) => {
-    // Create a link to download the file
-    const downloadUrl = source.downloadUrl;
-    
-    // Create a temporary anchor element
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.setAttribute('download', source.filename);
-    
-    // For direct download without opening in a new tab
-    // Alternatively, you could use window.open(downloadUrl, '_blank') to open in a new tab
-    document.body.appendChild(link);
-    link.click();
-    
-    // Clean up
-    document.body.removeChild(link);
-  }
+  // No need for a download handler when using anchor tags with proper attributes
 
   if (isLoading) {
     return <div className={styles.loading}>Loading sources...</div>
@@ -43,14 +27,15 @@ const SourcesList: React.FC = () => {
       <Heading level={2}>Sources</Heading>
       <ul className={styles.list}>
         {sources.map((source: SourceFile) => (
-          <li 
-            key={source.filename} 
-            className={styles.item}
-            onClick={() => handleDownload(source)}
-            style={{ cursor: 'pointer' }}
-          >
-            <div className={styles.title}>{source.filename}</div>
-            <div className={styles.content}>{source.lastModified}</div>
+          <li key={source.filename} className={styles.item}>
+            <a 
+              href={source.downloadUrl}
+              download={source.filename}
+              className={styles.sourceLink}
+            >
+              <div className={styles.title}>{source.filename}</div>
+              <div className={styles.content}>{source.lastModified}</div>
+            </a>
           </li>
         ))}
       </ul>
