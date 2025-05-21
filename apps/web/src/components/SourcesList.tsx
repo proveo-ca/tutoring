@@ -3,13 +3,13 @@ import { Heading } from 'react-aria-components'
 import { useSources, useDownloadSource } from '../hooks/useSourcesApi'
 import styles from './SourcesList.module.css'
 import { SourceFile } from "../types.ts";
+import { Loading } from "./Loading.tsx";
 
 const SourcesList: React.FC = () => {
   const { data, isLoading, isError, error } = useSources()
+  const { mutate: downloadFile, isPending: isDownloading } = useDownloadSource()
   const sources = data?.files
 
-  const { mutate: downloadFile, isPending: isDownloading } = useDownloadSource()
-  
   const handleDownload = (source: SourceFile) => {
     downloadFile(source.filename)
   }
@@ -31,14 +31,15 @@ const SourcesList: React.FC = () => {
       <Heading level={2}>Sources</Heading>
       <ul className={styles.list}>
         {sources.map((source: SourceFile) => (
-          <li 
-            key={source.filename} 
+          <li
+            key={source.filename}
             className={styles.item}
             onClick={() => handleDownload(source)}
             style={{ cursor: 'pointer' }}
           >
             <div className={styles.title}>{source.filename}</div>
             <div className={styles.content}>{source.lastModified}</div>
+            {isDownloading && <Loading />}
           </li>
         ))}
       </ul>
