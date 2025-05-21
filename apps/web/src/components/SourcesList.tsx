@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Heading } from 'react-aria-components'
 import { useSources, useDownloadSource } from '../hooks/useSourcesApi'
 import styles from './SourcesList.module.css'
@@ -9,9 +9,15 @@ const SourcesList: React.FC = () => {
   const { data, isLoading, isError, error } = useSources()
   const { mutate: downloadFile, isPending: isDownloading } = useDownloadSource()
   const sources = data?.files
+  const [downloadingFile, setDownloadingFile] = useState<string | null>(null)
 
   const handleDownload = (source: SourceFile) => {
-    downloadFile(source.filename)
+    setDownloadingFile(source.filename)
+    downloadFile(source.filename, {
+      onSettled: () => {
+        setDownloadingFile(null)
+      }
+    })
   }
 
   if (isLoading) {
@@ -39,7 +45,7 @@ const SourcesList: React.FC = () => {
           >
             <div className={styles.title}>{source.filename}</div>
             <div className={styles.content}>{source.lastModified}</div>
-            {isDownloading && <Loading />}
+            {isDownloading && downloadingFile === source.filename && <Loading />}
           </li>
         ))}
       </ul>
