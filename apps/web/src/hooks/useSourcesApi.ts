@@ -61,3 +61,46 @@ export function useAskQuestion() {
     },
   })
 }
+import { useQuery, useMutation } from '@tanstack/react-query'
+
+// Assuming you have a base API URL defined somewhere
+const API_BASE_URL = 'http://localhost:3000'
+
+export const useSources = () => {
+  return useQuery({
+    queryKey: ['sources'],
+    queryFn: async () => {
+      const response = await fetch(`${API_BASE_URL}/sources`)
+      if (!response.ok) {
+        throw new Error('Failed to fetch sources')
+      }
+      return response.json()
+    }
+  })
+}
+
+export const useDownloadSource = () => {
+  return useMutation({
+    mutationFn: async (filename: string) => {
+      const response = await fetch(`${API_BASE_URL}/sources/${filename}`)
+      
+      if (!response.ok) {
+        throw new Error('Failed to download file')
+      }
+      
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      
+      // Create a temporary anchor element to trigger the download
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      
+      // Clean up
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+    }
+  })
+}
