@@ -69,17 +69,17 @@ def get_chain() -> Any:
     def invoke(self, query):
       # Get the context
       docs = self.retriever.invoke(query)
-      
-      # Preserve markdown formatting and links in context
+
+      # Preserve Markdown formatting and links in context
       # Add document separators and maintain original formatting
       formatted_docs = []
       for i, doc in enumerate(docs):
           # Add a document identifier that can be referenced in citations
           doc_id = f"[^{i+1}]"
-          # Preserve the original content with its markdown formatting
+          # Preserve the original content with its Markdown formatting
           formatted_docs.append(f"{doc_id} {doc.page_content}")
-      
-      # Join with double newlines to maintain markdown paragraph structure
+
+      # Join with double newlines to maintain Markdown paragraph structure
       context = "\n\n".join(formatted_docs)
 
       # Run the prompt with context and query

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Heading } from 'react-aria-components'
 import { useSources, useDownloadSource } from '../hooks/useSourcesApi'
 import styles from './SourcesList.module.css'
 import { SourceFile } from "../types.ts";

@@ -4,7 +4,6 @@ import { FastifyPluginAsync } from 'fastify'
 import { promisify } from 'node:util'
 import { pipeline } from 'node:stream/promises'
 import { Extract } from 'unzipper'
-import { FromSchema } from 'json-schema-to-ts'
 import { successSchema, errorSchema } from './index.js'
 import { BadRequestError } from '../../plugins/error-handler.js'
 

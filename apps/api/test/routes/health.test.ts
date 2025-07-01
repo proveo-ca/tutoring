@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { FastifyInstance } from 'fastify'
 import Fastify from 'fastify'
-import health from './index.js'
+import health from '../../src/routes/health/index.js'
 
 describe('Health Route', () => {
   let app: FastifyInstance
@@ -22,11 +22,11 @@ describe('Health Route', () => {
     })
 
     expect(response.statusCode).toBe(200)
-    
+
     const payload = JSON.parse(response.payload)
     expect(payload).toHaveProperty('status', 'ok')
     expect(payload).toHaveProperty('timestamp')
-    
+
     // Verify timestamp is a valid ISO date string
     expect(() => new Date(payload.timestamp)).not.toThrow()
   })

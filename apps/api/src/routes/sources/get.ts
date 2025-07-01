@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import { join, resolve } from 'node:path'
+import path from 'node:path'
 import { FastifyPluginAsync } from 'fastify'
 import { promisify } from 'node:util'
 import { FromSchema } from 'json-schema-to-ts'
@@ -12,7 +12,7 @@ const stat = promisify(fs.stat)
 const readFile = promisify(fs.readFile)
 
 // Path to the reading directory
-const READING_DIR = process.env.DOCS_URL || resolve(__dirname, '..', '..', '..', '..', '..', 'reading');
+const READING_DIR = process.env.DOCS_URL || path.resolve(__dirname, '..', '..', '..', '..', '..', 'reading');
 
 // Parameter schema for filename
 const filenameParamSchema = {
@@ -41,7 +41,7 @@ const get: FastifyPluginAsync = async (fastify): Promise<void> => {
         files
           .filter(file => file.endsWith('.md') || file.endsWith('.pdf'))
           .map(async (file) => {
-            const filePath = join(READING_DIR, file)
+            const filePath = path.join(READING_DIR, file)
             const fileStat = await stat(filePath)
             return {
               filename: file,
@@ -72,7 +72,7 @@ const get: FastifyPluginAsync = async (fastify): Promise<void> => {
     const { filename } = request.params
 
     try {
-      const filePath = join(READING_DIR, filename)
+      const filePath = path.join(READING_DIR, filename)
 
       // Check if file exists
       try {

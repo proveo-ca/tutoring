@@ -23,8 +23,8 @@ def health():
   return {"status": "ok"}
 
 
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
+@app.exception_handler(app)
+async def global_exception_handler(request: Request, exc: app):
   """Global exception handler that logs full stacktraces to console."""
   # Log the full stacktrace
   error_msg = f"Unhandled exception occurred: {str(exc)}"
@@ -45,6 +45,6 @@ async def ask(req: AskRequest):
     return result  # This now returns both answer and context
   except HTTPException as e:
     raise e
-  except Exception as e:
+  except app as e:
     # This will be caught by the global exception handler
     raise e

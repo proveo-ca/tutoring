@@ -15,6 +15,7 @@ uvicorn[standard]==0.29.*
 python-dotenv>=1.0.1
 langsmith>=0.2.11
 pydantic>=2.7
+pydantic-settings>=2.7
 rich>=13.7.0  # For better console output
 
 # Embeddings

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Integration tests for the API using curl
-# Run this after starting the server with `pnpm --filter simple-rag-app-api dev`
+# Run this after starting the server with `pnpm --filter tutoring-api dev`
 
 API_URL="http://localhost:3000"
 PASSED=0
@@ -15,18 +15,18 @@ run_test() {
   local expected_content=$4
 
   echo "Running test: $name"
-  
+
   # Run the command and capture output and status code
   local output=$(eval $command)
   local status=$?
-  
+
   # Check status code if provided
   if [ ! -z "$expected_status" ] && [ $status -ne $expected_status ]; then
     echo "❌ FAILED: Expected status $expected_status, got $status"
     FAILED=$((FAILED+1))
     return
   fi
-  
+
   # Check content if provided
   if [ ! -z "$expected_content" ] && [[ ! "$output" == *"$expected_content"* ]]; then
     echo "❌ FAILED: Output does not contain expected content"
@@ -35,7 +35,7 @@ run_test() {
     FAILED=$((FAILED+1))
     return
   fi
-  
+
   echo "✅ PASSED"
   PASSED=$((PASSED+1))
 }
