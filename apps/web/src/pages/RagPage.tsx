@@ -7,7 +7,7 @@ import RagForm from "../components/RagForm.tsx";
 const RagPage: React.FC = () => {
   return (
     <div className={styles.container}>
-      <Heading level={1}>Simple RAG</Heading>
+      <Heading level={1}>Tutoring</Heading>
       <RagForm />
       <SourcesList />
     </div>
