@@ -1,0 +1,51 @@
+```plantuml
+@startuml
+!includeurl https://raw.githubusercontent.com/proveo-ca/identity/refs/heads/main/proveo.iuml
+
+' 👤  ACTORS ----------------------------------------------------
+actor "Student\n(End-User)" as Student
+actor "Task Runner" as TaskRunner
+actor "Scraper" as Scraper
+actor "UI Architect" as UIArchitect
+
+' 🏗️  NODES / CONTAINERS --------------------------------------
+node "Frontend\nReact" as FE {
+}
+
+node "API Server\nFastAPI" as API {
+}
+
+node "Vector Store\nChromaDB" as VS
+node "Embedding Model\n(Ollama / OpenAI)" as EMB
+node "Scheduler / Queue\nCelery + Redis" as SCH
+node "Scraper Engine\nPlaywright" as SCR
+database "Storage\n(PostgreSQL +\nMinIO)" as ST
+
+' 📥  Upload flow ---------------------------------------------
+Student ..> FE : (1) Upload PDFs (.zip)
+FE ..> API : HTTP POST /materials
+API ..> SCH : enqueue <update_vstore>
+SCH ..> TaskRunner : run job
+TaskRunner ..> EMB : Generate embeddings
+TaskRunner ..> VS : Upsert vectors
+TaskRunner ..> ST : Save metadata / text chunks
+TaskRunner --> SCH : job status: done
+
+' 🔍  Digest request flow --------------------------------------
+Student -> FE : (2) Ask: “'Explain chapter 3...'  ”
+FE --> API : (3) HTTP POST /digest
+API -> VS : (4) similarity search (RAG)
+API ---> UIArchitect : (5) decide layout + component list
+UIArchitect -> API : (6) JSON layout plan Array<{weight, content, source}>
+API ---> SCR : (7) need external sources for empty comps
+SCR ---> Scraper : (8) fetch URLs with citations
+Scraper ---> API : (9) enriched component data
+API --> FE : (10) Final JSON Array<{weight, content, source}>
+
+' ⛓️  Front-end render -----------------------------------------
+FE --> Student : Masonry / adaptive UI
+
+UIArchitect -[hidden]down-> Scraper
+
+@enduml
+```

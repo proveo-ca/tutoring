@@ -1,0 +1,84 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "api:test:coverage": {
+      "outputs": [
+        "{projectRoot}/apps/api/coverage"
+      ],
+      "cache": true
+    },
+    "api:start": {
+      "outputs": [
+        "{projectRoot}/apps/api/dist"
+      ],
+      "cache": true
+    },
+    "api:build:ts": {
+      "outputs": [
+        "{projectRoot}/apps/api/dist"
+      ],
+      "cache": true
+    },
+    "api:watch:ts": {
+      "outputs": [
+        "{projectRoot}/apps/api/dist"
+      ],
+      "cache": true
+    },
+    "api:dev": {
+      "outputs": [
+        "{projectRoot}/apps/api/dist"
+      ],
+      "cache": true
+    },
+    "web:build": {
+      "outputs": [
+        "{projectRoot}/apps/web/dist"
+      ],
+      "cache": true
+    },
+    "api:test": {
+      "cache": true
+    },
+    "api:test:watch": {
+      "cache": true
+    },
+    "api:test:integration": {
+      "cache": true
+    },
+    "api:dev:start": {
+      "cache": true
+    },
+    "web:dev": {
+      "cache": true
+    },
+    "web:lint": {
+      "cache": true
+    },
+    "web:preview": {
+      "cache": true
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/vite/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "serveTargetName": "serve",
+        "devTargetName": "dev",
+        "previewTargetName": "preview",
+        "serveStaticTargetName": "serve-static",
+        "typecheckTargetName": "typecheck",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    }
+  ]
+}

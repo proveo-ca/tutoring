@@ -1,0 +1,21 @@
+.layout {
+  display: grid;
+  width: 100%;
+}
+
+.vertical {
+  grid-auto-flow: row;
+  gap: var(--spacing-md, 1rem);
+}
+
+.horizontal {
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--spacing-md, 1rem);
+}
+
+@media (max-width: 768px) {
+  .horizontal {
+    grid-auto-flow: row;
+  }
+}

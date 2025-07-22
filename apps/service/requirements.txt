@@ -1,0 +1,22 @@
+# Core
+langchain==0.3.13
+langchain-community==0.3.13
+langchain-anthropic==0.3.13
+anthropic>=0.50.0
+
+# Vector store
+chromadb>=1.0.3
+
+# Web framework
+fastapi==0.115.9
+uvicorn[standard]==0.29.*
+
+# Utilities
+python-dotenv>=1.0.1
+langsmith>=0.2.11
+pydantic>=2.7
+pydantic-settings>=2.7
+rich>=13.7.0  # For better console output
+
+# Embeddings
+sentence-transformers>=4.0.2

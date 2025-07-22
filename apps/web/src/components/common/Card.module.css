@@ -1,0 +1,27 @@
+.card {
+  display: grid;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--background-light);
+  margin-top: var(--spacing-md);
+}
+
+.title {
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+  color: var(--text-color-dark);
+  margin-bottom: 0;
+}
+
+.content {
+  color: var(--text-color);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.loading {
+  color: var(--text-color-light);
+  font-style: italic;
+}

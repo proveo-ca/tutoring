@@ -1,0 +1,33 @@
+{
+  "name": "@proveo/tutoring",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:service": "cd apps/service && uvicorn app.main:app --reload --port 8800",
+    "dev:api": "pnpm --filter @proveo/tutoring-api api:dev",
+    "dev:web": "pnpm --filter @proveo/tutoring-web web:dev",
+    "dev": "concurrently -n service,api,web -c green,cyan \"pnpm dev:service\" \"pnpm dev:api\" \"pnpm dev:web\"",
+    "docker:build": "docker compose -f docker/compose.yaml build",
+    "docker:up": "docker compose -f docker/compose.yaml up -d",
+    "docker:logs": "docker compose -f docker/compose.yaml logs -f",
+    "docker:down": "docker compose -f docker/compose.yaml down"
+  },
+  "devDependencies": {
+    "@nx/eslint": "21.2.2",
+    "@nx/vite": "21.2.2",
+    "@nx/web": "21.2.2",
+    "@vitest/ui": "^3.0.0",
+    "concurrently": "^8.2.2",
+    "eslint": "~8.57.0",
+    "jiti": "2.4.2",
+    "nx": "21.2.2",
+    "vite": "^6.0.0",
+    "vitest": "^3.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.8.0",
+  "dependencies": {}
+}
