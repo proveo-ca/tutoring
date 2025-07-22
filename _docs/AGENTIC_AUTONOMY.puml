@@ -1,0 +1,72 @@
+```plantuml
+@startuml
+!includeurl https://raw.githubusercontent.com/proveo-ca/identity/refs/heads/main/proveo.iuml
+
+' ───────────────────  ACTORS (Autonomous Agents)  ───────────────────
+actor "Student" as Student
+actor "Task Runner Agent" as TaskRunner
+actor "Scraper Agent" as Scraper
+actor "UI Architect Agent" as UIArchitect
+actor "Evaluator / Guardrails" as Evaluator
+
+' ───────────────────  SYSTEM NODES / CONTAINERS  ───────────────────
+cloud "Agent Orchestrator\n(LangGraph / CrewAI)" as Orchestrator
+node  "Vector Store\nChroma"            as VS
+database "Knowledge & Files\n(PostgreSQL + MinIO)" as Storage
+node  "Embedding Model\nOllama / OpenAI" as EMB
+queue "Task Queue\nFastQueue"           as Queue
+database "Observability\nPrometheus + Loki" as Obs
+
+' ───────────────────  OBJECTIVE NOTES  ───────────────────
+note right of TaskRunner
+  **Objective**
+  * Keep embeddings fresh
+  * Monitor backlog & self-schedule refresh
+  * Publish status to queue
+end note
+
+note right of Scraper
+  **Objective**
+  * Populate empty UI components
+  * Guarantee citation-accurate data
+  * Retry with alt queries if quality < threshold
+end note
+
+note right of UIArchitect
+  **Objective**
+  * Select layout per user intent
+  * Balance weight <-> clarity
+  * Emit component spec for downstream agents
+end note
+
+note right of Evaluator
+  **Objective**
+  * Run automatic schema & policy checks
+  * Perform spot-QA & hallucination tests
+  * Return *pass* / *revise* signals
+end note
+
+' ───────────────────  AGENTIC INTERACTIONS  ───────────────────
+Student --> Orchestrator : User goal / query
+Orchestrator --> TaskRunner : "Need fresh embeddings?"
+Orchestrator --> UIArchitect : "Draft layout plan"
+Orchestrator --> Scraper    : "Fill data gaps"
+TaskRunner --> VS
+TaskRunner --> Evaluator
+UIArchitect --> VS
+UIArchitect --> Evaluator
+Scraper --> Storage
+Scraper --> Evaluator
+Evaluator --> Orchestrator : pass / revise
+Orchestrator --> Student : Final response JSON
+
+' ───────────────────  INFRA & OBSERVABILITY  ───────────────────
+TaskRunner --> Queue
+Scraper     --> Queue
+UIArchitect --> Queue
+TaskRunner --> EMB
+Obs .. Evaluator   : metrics / audit
+Obs .. Orchestrator: traces / health
+
+@enduml
+```
