@@ -12,10 +12,10 @@
     "api:test:watch": "nx test",
     "api:test:coverage": "nx test run --coverage",
     "api:test:integration": "./test/integration.sh",
-    "api:start": "pnpm run build:ts && fastify start -l info dist/app.js",
+    "api:start": "pnpm run api:build:ts && fastify start -l info dist/app.js",
     "api:build:ts": "tsc -p tsconfig.build.json",
     "api:watch:ts": "tsc -w",
-    "api:dev": "pnpm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"pnpm:watch:ts\" \"pnpm:dev:start\"",
+    "api:dev": "pnpm run api:build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"pnpm:api:watch:ts\" \"pnpm:api:dev:start\"",
     "api:dev:start": "fastify start --ignore-watch=.ts$ -w -l info -P dist/app.js"
   },
   "keywords": [],

@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react'
 import { Heading } from 'react-aria-components'
 import SourcesList from '../components/SourcesList'
-import ActionBar from '../components/ActionBar'
+import ActionBar from '../components/common/ActionBar.tsx'
 import styles from './RagPage.module.css'
 import RagForm from "../components/RagForm.tsx";
 
 const RagPage: React.FC = () => {
   const handleUploadFiles = useCallback(async (files: FileList) => {
     const formData = new FormData();
-    
+
     // Add all selected files to the form data
     Array.from(files).forEach((file, index) => {
       formData.append(`file${index}`, file);
@@ -27,7 +27,7 @@ const RagPage: React.FC = () => {
 
       const result = await response.json();
       console.log('Upload successful:', result);
-      
+
       // TODO: Refresh sources list or show success message
     } catch (error) {
       console.error('Upload error:', error);
@@ -44,7 +44,7 @@ const RagPage: React.FC = () => {
     <div className={styles.container}>
       <Heading level={1}>Tutoring</Heading>
       <RagForm />
-      <ActionBar 
+      <ActionBar
         onUploadFiles={handleUploadFiles}
         onClearSources={handleClearSources}
       />

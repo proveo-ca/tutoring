@@ -2,14 +2,14 @@ services:
   rag-service:
     build:
       context: ..
-      dockerfile: docker/rag-service.Dockerfile
-    image: proveo/rag/rag-service
+      dockerfile: service.Dockerfile
+    image: proveo/tutoring/service
     volumes:
       - ../reading:/opt/docs:ro
     networks: ["backend"]
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:?err}
-      - ANTHROPIC_MODEL_NAME=claude-3-7-sonnet-20250219
+      - ANTHROPIC_MODEL_NAME=claude-sonnet-4-20250514
       - LANGSMITH_TRACING=true
       - LANGSMITH_PROJECT=${LANGSMITH_PROJECT:?err}
       - LANGSMITH_API_KEY=${LANGSMITH_API_KEY:?err}
@@ -21,12 +21,12 @@ services:
     build:
       context: ..
       dockerfile: docker/api.Dockerfile
-    image: proveo/rag/api
+    image: proveo/tutoring/api
     volumes:
       - ../reading:/opt/docs:ro
     networks: ["backend", "frontend"]
     environment:
-      - RAG_SERVICE_URL=http://rag-service:8800
+      - RAG_SERVICE_URL=http://service:8800
       - DOCS_URL=/opt/docs
     ports:
       - "3000:3000"
@@ -38,7 +38,7 @@ services:
     build:
       context: ..
       dockerfile: docker/web.Dockerfile
-    image: proveo/rag/web
+    image: proveo/tutoring/web
     networks: ["frontend"]
     ports:
       - "8080:80"
